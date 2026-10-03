@@ -1,0 +1,110 @@
+:root {
+  --bg: #0b0b0f;
+  --bg-raised: #12121a;
+  --violet: #9b3dff;
+  --text: #ffffff;
+  --text-dim: #b3b3c7;
+  --font: "Satoshi", "Google Sans", Roboto, system-ui, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Player. Image variables are set from receiver.js so their URLs resolve against this page. */
+
+cast-media-player {
+  --theme-hue: 269;
+  --progress-color: var(--violet);
+  --background-color: var(--bg);
+  --font-family: var(--font);
+  --splash-size: 22vh;
+  --logo-size: 16vh;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+body:not(.on-device) cast-media-player {
+  display: none;
+}
+
+/* Idle screen */
+
+.idle {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(ellipse at 50% 45%, var(--bg-raised) 0%, var(--bg) 70%);
+  transition: opacity 600ms ease;
+}
+
+body:not([data-state="idle"]) .idle {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.idle__glow {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  width: 70vh;
+  height: 70vh;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(155, 61, 255, 0.34) 0%, rgba(233, 53, 193, 0.1) 40%, transparent 68%);
+  transform: translate(-50%, -50%);
+  animation: breathe 8s ease-in-out infinite;
+}
+
+.idle__mark {
+  position: relative;
+  width: 24vh;
+  height: 24vh;
+  filter: drop-shadow(0 2vh 5vh rgba(155, 61, 255, 0.35));
+}
+
+.idle__name {
+  position: relative;
+  margin: 3.2vh 0 0;
+  font-size: 7vh;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.idle__status {
+  position: relative;
+  margin: 2vh 0 0;
+  color: var(--text-dim);
+  font-size: 2.6vh;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+}
+
+@keyframes breathe {
+  0%, 100% { opacity: 0.75; transform: translate(-50%, -50%) scale(0.96); }
+  50% { opacity: 1; transform: translate(-50%, -50%) scale(1.04); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .idle__glow { animation: none; }
+}
